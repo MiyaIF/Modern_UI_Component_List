@@ -53,7 +53,7 @@ export function Header({ onSearchChange, onMenuClick }: HeaderProps) {
 
         {/* Actions */}
         <div className="flex items-center gap-2">
-          <Button variant="ghost" size="sm" asChild>
+          {/* <Button variant="ghost" size="sm" asChild>
             <a
               href="https://github.com"
               target="_blank"
@@ -62,7 +62,7 @@ export function Header({ onSearchChange, onMenuClick }: HeaderProps) {
             >
               <Github className="h-4 w-4" />
             </a>
-          </Button>
+          </Button> */}
           
           <Button variant="ghost" size="sm" asChild>
             <Link to="/docs" aria-label="Documentation">
