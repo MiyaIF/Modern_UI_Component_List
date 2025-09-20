@@ -17,7 +17,7 @@ import {
   import { Button } from "@/components/ui/button";
   import { ScrollArea } from "@/components/ui/scroll-area";
   import { Badge } from "@/components/ui/badge";
-  import { componentsData, getComponentsByCategory } from "@/lib/components-data";
+  import { getComponentsByCategory } from "@/lib/components-data";
   
   interface SidebarProps {
     className?: string;

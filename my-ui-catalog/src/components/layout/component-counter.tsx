@@ -8,7 +8,7 @@ export function ComponentCounter() {
   
   useEffect(() => {
     // Animate count on mount
-    const target = 127; // Total components planned
+    const target = 20; // Total components planned
     const duration = 2000; // 2 seconds
     const increment = target / (duration / 16); // 60fps
     

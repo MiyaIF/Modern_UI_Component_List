@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Header } from "@/components/layout/header";
 import { Sidebar } from "@/components/layout/sidebar";
 import { ComponentGrid } from "@/components/component-grid";
-import { componentsData, getComponentsByCategory, searchComponents } from "@/lib/components-data";
+import { getComponentsByCategory, searchComponents } from "@/lib/components-data";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Sparkles, Target, Shield } from "lucide-react";
 
@@ -43,7 +43,7 @@ const Index = () => {
               <div className="max-w-4xl mx-auto">
                 <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-medium mb-6">
                   <Sparkles className="h-4 w-4" />
-                  127+ プロダクション対応コンポーネント
+                  20+ プロダクション対応コンポーネント
                 </div>
                 
                 <h1 className="text-4xl md:text-6xl font-bold bg-gradient-primary bg-clip-text text-transparent mb-6">
