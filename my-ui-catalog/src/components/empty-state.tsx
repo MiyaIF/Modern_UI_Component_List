@@ -1,4 +1,4 @@
-import { Search, Box } from "lucide-react";
+import { Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface EmptyStateProps {
@@ -11,6 +11,7 @@ interface EmptyStateProps {
 }
 
 export function EmptyState({ title, description, action }: EmptyStateProps) {
+  // NOTE: 空状態での操作案内を統一するため、検索アイコンと補助テキストを配置
   return (
     <div className="flex flex-col items-center justify-center py-12 text-center">
       <div className="mb-4 p-3 rounded-full bg-muted">

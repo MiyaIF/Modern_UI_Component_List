@@ -47,7 +47,6 @@ import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp
 import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupAction, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarInput, SidebarInset, SidebarMenu, SidebarMenuAction, SidebarMenuButton, SidebarMenuItem, SidebarMenuSkeleton, SidebarMenuSub, SidebarMenuSubButton, SidebarMenuSubItem, SidebarProvider, SidebarRail, SidebarSeparator, SidebarTrigger } from "@/components/ui/sidebar";
 import { Toaster as SonnerToaster } from "@/components/ui/sonner";
 import { Toast, ToastAction, ToastClose, ToastDescription, ToastProvider, ToastTitle, ToastViewport } from "@/components/ui/toast";
 import { Toaster } from "@/components/ui/toaster";
@@ -65,25 +64,62 @@ const Playground = () => {
     }
   }, [selectedComponent]);
 
-  const handleShare = () => {
-    const url = `${window.location.origin}/playground?component=${selectedComponent}&code=${encodeURIComponent(code)}`;
-    navigator.clipboard.writeText(url);
-    toast({
-      title: "Shared!",
-      description: "Playground URL copied to clipboard",
-    });
+  const handleShare = async () => {
+    if (!code.trim()) {
+      // NOTE: 空のコードを共有しても意味がないため、利用者にバリデーション結果を通知
+      toast({
+        title: "コードが入力されていません",
+        description: "共有する前にコードを入力してください",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    try {
+      const url = `${window.location.origin}/playground?component=${selectedComponent}&code=${encodeURIComponent(code)}`;
+      await navigator.clipboard.writeText(url);
+      toast({
+        title: "Shared!",
+        description: "Playground URL copied to clipboard",
+      });
+    } catch (error) {
+      console.error("Failed to copy playground URL", error);
+      toast({
+        title: "クリップボードにコピーできませんでした",
+        description: "ブラウザの権限設定をご確認ください",
+        variant: "destructive"
+      });
+    }
   };
 
   const handleDownload = () => {
-    const blob = new Blob([code], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `${selectedComponent}-example.tsx`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    if (!code.trim()) {
+      toast({
+        title: "コードが入力されていません",
+        description: "ダウンロードする前にコードを入力してください",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    try {
+      const blob = new Blob([code], { type: "text/plain" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${selectedComponent}-example.tsx`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Failed to download playground code", error);
+      toast({
+        title: "ダウンロードに失敗しました",
+        description: "ブラウザの設定またはストレージ容量をご確認ください",
+        variant: "destructive"
+      });
+    }
   };
 
   const selectedComponentData = componentsData.find(c => c.id === selectedComponent);
