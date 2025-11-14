@@ -67,3 +67,21 @@ export default defineConfig([
   },
 ])
 ```
+
+## Deployment
+
+This project now reads a `VITE_BASE_PATH` environment variable at build time to make sure the generated files and the router agree on the public path they are served from. This prevents errors such as `Failed to load module script… MIME type "application/octet-stream"` that occur when the app is published from a subdirectory and the browser ends up requesting the wrong file.
+
+1. When hosting from the domain root, nothing extra is required:
+
+   ```bash
+   npm run build
+   ```
+
+2. When hosting from a subdirectory (for example, GitHub Pages or an S3 bucket folder), set `VITE_BASE_PATH` before building. Always include the leading slash and omit the trailing slash:
+
+   ```bash
+   VITE_BASE_PATH=/my-ui-catalog npm run build
+   ```
+
+   The generated `dist` directory can then be uploaded as-is and the module scripts will be served with the correct MIME type.

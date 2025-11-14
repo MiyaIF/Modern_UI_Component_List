@@ -11,6 +11,11 @@ import Docs from "./pages/Docs";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
+const basePath = import.meta.env.BASE_URL ?? "/";
+const routerBaseName =
+  basePath === "/" || basePath.startsWith(".")
+    ? "/"
+    : basePath.replace(/\/$/, "");
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -18,7 +23,7 @@ const App = () => (
       <TooltipProvider>
         <Toaster />
         <Sonner />
-        <BrowserRouter>
+        <BrowserRouter basename={routerBaseName}>
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/components/:id" element={<ComponentDetail />} />
