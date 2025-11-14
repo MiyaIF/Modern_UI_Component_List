@@ -1,4 +1,4 @@
-import { ComponentData } from "@/lib/components-data";
+import type { ComponentData } from "@/lib/components-data";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -25,11 +25,17 @@ const statusColors = {
 };
 
 export function ComponentCard({ component, className }: ComponentCardProps) {
+  // NOTE: ステータス情報が欠損している場合でも新着表示の有無を計算できるようにガードを挟む
   const isNew = component.status === "new" || (() => {
-    const updatedDate = new Date(component.updatedAt);
-    const thirtyDaysAgo = new Date();
-    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-    return updatedDate > thirtyDaysAgo;
+    try {
+      const updatedDate = new Date(component.updatedAt);
+      const thirtyDaysAgo = new Date();
+      thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+      return updatedDate > thirtyDaysAgo;
+    } catch (error) {
+      console.error("Failed to parse component.updatedAt", error);
+      return false;
+    }
   })();
 
   return (

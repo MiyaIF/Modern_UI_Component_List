@@ -1,6 +1,5 @@
 "use client"
 
-import * as React from "react"
 import { Moon, Sun } from "lucide-react"
 import { useTheme } from "next-themes"
 import { Button } from "@/components/ui/button"
@@ -12,6 +11,7 @@ export function ThemeToggle() {
     <Button
       variant="ghost"
       size="sm"
+      // NOTE: ボタンを押した際にライト/ダークテーマを安全にトグルする
       onClick={() => setTheme(theme === "light" ? "dark" : "light")}
       aria-label="Toggle theme"
     >

@@ -1,4 +1,4 @@
-import { ComponentData } from "@/lib/components-data";
+import type { ComponentData } from "@/lib/components-data";
 import { ComponentCard } from "./component-card";
 import { EmptyState } from "./empty-state";
 
@@ -8,9 +8,10 @@ interface ComponentGridProps {
 }
 
 export function ComponentGrid({ components, searchQuery }: ComponentGridProps) {
+  // NOTE: 検索結果が空の場合にユーザーへ状況を丁寧に伝えるため、空状態用のUIを返す
   if (components.length === 0) {
     return (
-      <EmptyState 
+      <EmptyState
         title={searchQuery ? "No components found" : "No components"}
         description={
           searchQuery 

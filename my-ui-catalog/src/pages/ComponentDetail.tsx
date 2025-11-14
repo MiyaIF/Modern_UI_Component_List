@@ -1,5 +1,4 @@
 import { useParams, Link } from "react-router-dom";
-import { useState } from "react";
 import { Header } from "@/components/layout/header";
 import { componentsData } from "@/lib/components-data";
 import { Button } from "@/components/ui/button";
@@ -31,12 +30,22 @@ const ComponentDetail = () => {
     );
   }
 
-  const copyToClipboard = (text: string) => {
-    navigator.clipboard.writeText(text);
-    toast({
-      title: "Copied to clipboard",
-      description: "Code snippet copied successfully!",
-    });
+  const copyToClipboard = async (text: string) => {
+    try {
+      // NOTE: クリップボード操作はブラウザ権限に依存するため例外を捕捉しユーザーへ通知する
+      await navigator.clipboard.writeText(text);
+      toast({
+        title: "Copied to clipboard",
+        description: "Code snippet copied successfully!",
+      });
+    } catch (error) {
+      console.error("Failed to copy component snippet", error);
+      toast({
+        title: "コピーに失敗しました",
+        description: "クリップボードの権限をご確認ください",
+        variant: "destructive"
+      });
+    }
   };
 
   return (
